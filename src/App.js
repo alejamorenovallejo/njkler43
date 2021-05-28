@@ -1,28 +1,33 @@
-import React, { Component } from 'react';
+import React, { useState} from 'react';
 import posts from './posts'
-
-
 // Modifica el componente App para implmentar la funcionalidad requerida
+export default function App() {
+  const [filterData,setFilterData] = useState(posts);
 
-class App extends Component {
-  render() {
-    return (
-      <div>
+  const handleChange = (value) => {
+    let result = posts.filter((e) => (e.title.toUpperCase().includes(value)));
+    setFilterData(result)
+  }
+
+  return (
+    <div>
         <div className="filter">
-          <input type="text" placeholder="Ingresa el término de búsqueda" />
+          <input type="text" placeholder="Ingresa el término de búsqueda"
+          onChange={(element) => {handleChange(element.target.value.toUpperCase())
+          }}/>
         </div>
         <ul>
-          <li>
-            <a href={posts[0].url}><img src={posts[0].image } /></a>
-            <p>{ posts[0].title }</p>
+        
+          {
+          filterData.map((element, index) => (
+          <li key={index}>
+            <a href={element.url}><img src={element.image}/></a>
+            <p>{ element.title }</p>
           </li>
+          ))
+          }
         </ul>
-      </div>
-    )
-  }
+    </div>
+  )
 }
-
-
-export default App
-
 
